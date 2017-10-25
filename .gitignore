@@ -111,4 +111,10 @@ venv.bak/
 *.jpg
 *.tif
 
-
+sample/*
+logs/*
+test/*
+datasets/*
+checkpoint/*
+val/*
+*.pyc

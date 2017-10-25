@@ -154,17 +154,23 @@ class pix2pix(object):
 
         for epoch in xrange(args.epoch):
             data = glob('./datasets/{}/train/*.jpg'.format(self.dataset_name))
+            print("len(data)",len(data))
             #np.random.shuffle(data)
             batch_idxs = min(len(data), args.train_size) // self.batch_size
-
+            print("self.batch_size",self.batch_size)
+            print("batch_idxs",batch_idxs)
             for idx in xrange(0, batch_idxs):
                 batch_files = data[idx*self.batch_size:(idx+1)*self.batch_size]
+                print("batch_files",batch_files)
                 batch = [load_data(batch_file) for batch_file in batch_files]
+                print("len(batch)",len(batch))
+                
                 if (self.is_grayscale):
                     batch_images = np.array(batch).astype(np.float32)[:, :, :, None]
                 else:
                     batch_images = np.array(batch).astype(np.float32)
 
+                print("batch_images.shape",batch_images.shape)
                 # Update D network
                 _, summary_str = self.sess.run([d_optim, self.d_sum],
                                                feed_dict={ self.real_data: batch_images })
@@ -189,7 +195,7 @@ class pix2pix(object):
                     % (epoch, idx, batch_idxs,
                         time.time() - start_time, errD_fake+errD_real, errG))
 
-                if np.mod(counter, 100) == 1:
+                if np.mod(counter, 25) == 1:
                     self.sample_model(args.sample_dir, epoch, idx)
 
                 if np.mod(counter, 500) == 2:
