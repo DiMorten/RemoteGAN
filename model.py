@@ -164,6 +164,7 @@ class pix2pix(object):
                 print("batch_files",batch_files)
                 batch = [load_data(batch_file) for batch_file in batch_files]
                 print("len(batch)",len(batch))
+                print("batch",np.array(batch).shape)
                 
                 if (self.is_grayscale):
                     batch_images = np.array(batch).astype(np.float32)[:, :, :, None]
